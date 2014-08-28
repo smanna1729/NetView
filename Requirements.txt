@@ -1,0 +1,18 @@
+﻿
+Operating Systems : Linux
+
+	Ubuntu 11.10 / 10.04 (This software mainly developed in Ubuntu 10.04)
+
+
+Hardware Requirements :
+	
+	Network Device (Internet) (i.e. Interface : eth0)
+
+
+Software Requirements :
+	
+	Java Virtual machine – 1.5.0 (Upper)
+	GCC Compiler 
+	JPCAP 
+	libpcap 
+

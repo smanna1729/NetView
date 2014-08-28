@@ -1,0 +1,94 @@
+#!/bin/sh
+#
+# $Id: jpcap,v 1.11 2001/07/02 00:21:55 pcharles Exp $
+#
+# jpcap console test tool startup script
+#
+
+# find libpcap
+if [ "$LIB_PCAP" != "" ]; then
+    LIB_PCAP=$LIB_PCAP
+else
+    pdirs="/usr/lib /usr/local/lib ~"
+    pcaps="libpcap.a libpcap.o"
+    for pdir in $pdirs
+    do
+        for pcap in $pcaps
+        do 
+            if [ -f $pdir/$pcap ]; then
+                LIB_PCAP=$pdir
+                break 2
+            fi
+        done
+    done
+fi
+if [ "$LIB_PCAP" = "" ]; then
+    echo No libpcap.{so, a} found! Try pointing LIB_PCAP to library directory.
+    exit
+fi
+echo using libpcap libraries from $LIB_PCAP
+
+# find a java vm
+if [ "$JAVA_HOME" != "" ]; then
+    JAVA_HOME=$JAVA_HOME
+else
+    jdirs="/usr/java /usr/lib/jvm/java-6-openjdk /usr/local /usr/local/java /opt /usr ~"
+    jvms="jdk1.3 jdk1.3.2 jdk1.3.1 IBMJava2-13 jdk1.3.0_02 jdk1.4 j2sdk1.4 j2sdk1.4.0 IBMJava2-14 jdk1.2 jdk1.2.2 jre"
+    # the following might now work if the user has relocated the jdk package.
+    # todo: detect location and set based on rpm dependency
+    for jdir in $jdirs
+    do
+        for jvm in $jvms
+        do 
+            if [ -d $jdir/$jvm ]; then
+                JAVA_HOME=$jdir/$jvm
+		JAVADIR=$jdir
+                break 2
+            fi
+        done
+    done
+fi
+if [ "$JAVA_HOME" = "" ]; then
+    echo Could not find installed JVM. Please set JAVA_HOME and try again.
+    exit
+fi
+echo using Java VM at $JAVA_HOME..
+
+# Compile All the Java Files
+insidedir="Java"
+javac $insidedir/*.java
+
+# Create the *.h files from the Java Source file using -jni
+cd $insidedir
+syslib="ArbitSocketGUI CreateICMPHeader SendARPPacket SendIPPacket SendPacket"
+for libtoken in $syslib
+do
+  javah -jni $libtoken
+done
+cd ..
+
+# move all *.h and *.class to "C" folder
+mv $insidedir/*.h "C"
+mv $insidedir/*.class "C"
+
+# all the files used to create associated .so (shared object file)
+javadirInclude="-I$JAVADIR/include -o" 
+input1=" C/libArbitSocketGUI.so -shared C/ArbitSocketGUI.c C/SocketUtility.c C/Utility.c C/PacketInjection.c"
+input2=" C/libSendPacket_ICMP.so -shared C/SendPacket_ICMP.c C/SocketUtility.c C/Utility.c"
+input3=" C/libSendPacket_UDP.so -shared C/SendPacket_UDP.c C/PacketInjection_UDP.c C/SocketUtility.c C/Utility.c"
+input4=" C/libSendPacket_TCP.so -shared C/SendPacket_TCP.c C/PacketInjection_TCP.c C/SocketUtility.c C/Utility.c"
+input5=" C/libSendPacket_ARP.so -shared C/SendPacket_ARP.c C/SocketUtility.c C/Utility.c"
+input6=" C/libSendPacket_IP.so -shared C/SendPacket_IP.c C/SocketUtility.c C/Utility.c"
+
+# Compile all the C files
+gcc $javadirInclude $input1
+gcc $javadirInclude $input2
+gcc $javadirInclude $input3
+gcc $javadirInclude $input4
+gcc $javadirInclude $input5 
+gcc $javadirInclude $input6 
+
+# Move it to seperate place
+netview="NetView+"
+mv "C"/*.class $netview
+mv "C"/*.so $netview

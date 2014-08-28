@@ -1,0 +1,32 @@
+﻿Installation Instruction:
+
+
+Install libpcap: (Pre-installed)
+	Install latest libpcap in your computer.
+
+
+Install jpcap:(Pre-installed)
+
+  Use RPM package (Fedora, RedHat)
+	Download and install Jpcap RPM package.
+	For some distributions (e.g., Mandriva), JDK6 is also installed automatically.
+	However, for some distributions (e.g., Fedora Core), you have to manually install Sun's JDK6 for Linux as a RPM package before installing Jpcap RPM package.
+
+  Use Debian package (Ubuntu, GNU/Debian)
+	Download and install Jpcap Debian package.
+	For some distributions (e.g., Ubuntu), JDK6 is also installed automatically.
+	For some distributions (e.g., Debian GNU/Lunux), you may have to edit apt-line (e.g., include "no-free") before installing Jpcap Debian package. Also, you may have to update your GLIBC to version 2.4 or higher.
+	If you cannot install using RPM/Debian package, you can try to build from the source.
+
+
+Procedure to intall NetView+:
+	
+ Extract the 'NetView+.tar.gz'
+ Kept in the specific folder.
+ There are two script files – 'install' and 'run'
+ Before using 'run' and 'install' you have to get the access  right of the root administrator.
+ Using command line run 'chmod +x install' to make 'install' script file executable.
+ Run the command './install' to install the software.
+ Run the command './run' to run the software.
+ You have to run the './install' command once and './run' each time whenever you want to run the software.
+ If you have jvm in your computer and you are still unable to install, this is because the script file does not find the class path of the java library. Edit the 'install' script file to install it.

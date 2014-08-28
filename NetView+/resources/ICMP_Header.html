@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>ICMP Header Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+<div align="center">
+  <p>&nbsp;</p>
+  <h1 align="center">ICMP Header Format</h1>
+  <p>&nbsp;</p>
+  <img src="ICMP-Header.png" width="800" height="450"> </div>
+<div align="right"> 
+  <p align="left">&nbsp;</p>
+  <p>&nbsp;</p>
+</div>
+<blockquote> 
+  <div align="left">
+    <p><font size="4">ICMP (Internet Control Message Protocol) messages are sent in several 
+      situations: for example, when a datagram cannot reach its destination, when the gateway 
+      does not have the buffering capacity to forward a datagram, and when the gateway can 
+      direct the host to send traffic on a shorter route. The Internet Protocol is not designed 
+      to be absolutely reliable. The purpose of these control messages is to provide feedback 
+      about problems in the communication environment, not to make IP reliable. There are still 
+      no guarantees that a datagram will be delivered or a control message will be returned. 
+      Some datagrams may still be undelivered without any report of their loss. The higher level 
+      protocols that use IP must implement their own reliability procedures if reliable communication 
+      is required. The ICMP messages typically report errors in the processing of datagrams. 
+      To avoid the infinite regress of messages about messages etc., no ICMP messages are sent about 
+      ICMP messages. </font></p>
+    <p>&nbsp;</p>
+    <p><font size="4">Information is taken from : http://www.networksorcery.com/enp/protocol/icmp.htm</font></p>
+    <p>&nbsp;</p>
+    <p>
+	<table width="100%">
+	  <tr>
+	    <td align="right"><a href="UDP_Header.html"><img src="backward.png" width="128" height="128" border="0"></a></td>
+	    <td align="left"><a href="index.html"><img  src="forward.png" width="128" height="128" border="0"></a></td>
+	  </tr>
+	</table>
+    </p>
+    <p>&nbsp;</p>
+    <p>&nbsp;</p>
+  </div>
+</blockquote>
+</body>
+</html>

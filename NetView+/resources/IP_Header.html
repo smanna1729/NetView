@@ -1,0 +1,175 @@
+<html>
+<head>
+<title>IP Header Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+<br>
+<h1 align="center">IP Header Format<br>
+</h1>
+
+<blockquote> 
+  <blockquote> 
+    <p><font size="4">Internet Protocol version 4 (IPv4) is the fourth revision in 
+	  the development of the Internet Protocol (IP) and the first version of the protocol 
+	  to be widely deployed. Together with IPv6, it is at the core of standards-based 
+	  internetworking methods of the Internet. IPv4 is still by far the most widely 
+	  deployed Internet Layer protocol (As of 2011, IPv6 deployment is still in its 
+	  infancy). </font></p>
+	<p>&nbsp;</p>
+    <p><font size="4"><b>Packet structure : </b></font></p>
+	<p><font size="4">An IP packet consists of a header section and a data section. </font></p>
+    <p><font size="4"><b>Header :</b></font></p>
+	<p><font size="4">The IPv4 packet header consists of 14 fields, of which 13 are 
+	  required. The 14th field is optional (red background in table) and aptly named: 
+	  options. The fields in the header are packed with the most significant byte first 
+	  (big endian), and for the diagram and discussion, the most significant bits are 
+	  considered to come first (MSB 0 bit numbering). The most significant bit is numbered 0, 
+	  so the version field is actually found in the four most significant bits of the first 
+	  byte.</font></p>
+	<p>&nbsp;</p>
+	<p align="center"><img src="IP-Header.png" width="750" height="570"></p>
+	<p>&nbsp;</p>
+    <p><font size="4"><b>Version :</b></font></p>
+	<p><font size="4">The first header field in an IP packet is the four-bit version field. 
+	   For IPv4, this has a value of 4 (hence the name IPv4).</font></p>
+	<p><font size="4"><b>Internet Header Length (IHL) :</b></font></p>
+	<p><font size="4">The second field (4 bits) is the Internet Header Length (IHL) telling 
+	  the number of 32-bit words in the header. Since an IPv4 header may contain a variable 
+	  number of options, this field specifies the size of the header (this also coincides with 
+	  the offset to the data). The minimum value for this field is 5 (RFC 791), which is a length 
+	  of 5×32 = 160 bits = 20 bytes. Being a 4-bit value, the maximum length is 15 words (15×32 bits) 
+	  or 480 bits = 60 bytes.</font></p>
+	<p><font size="4"><b>TOS (Type of Services) :</b></font></p>
+	<p><font size="4"><i>Differentiated Services Code Point (DSCP) :</i><br>
+	  Originally defined as the Type of Service field, this field is now defined by RFC 2474 for 
+	  Differentiated services (DiffServ). New technologies are emerging that require real-time data 
+	  streaming and therefore make use of the DSCP field. An example is Voice over IP (VoIP) that is 
+	  used for interactive data voice exchange.<br><br>
+	  <i>Explicit Congestion Notification (ECN) :</i><br>
+	  Defined in RFC 3168 and allows end-to-end notification of network congestion without dropping 
+	  packets. ECN is an optional feature that is only used when both endpoints support it and are 
+	  willing to use it. It is only effective when supported by the underlying network.</font></p>
+    <p><font size="4"><b>Total Length :</b></font></p>
+	<p><font size="4">This 16-bit field defines the entire datagram size, including header and data, 
+	  in bytes. The minimum-length datagram is 20 bytes (20-byte header + 0 bytes data) and the 
+	  maximum is 65,535 bytes - the maximum value of a 16-bit word. The maximum size datagram that 
+	  any host is required to be able to handle is 576 bytes, but most modern hosts handle much larger 
+	  packets. Sometimes subnetworks impose further restrictions on the size, in which case datagrams 
+	  must be fragmented. Fragmentation is handled in either the host or packet switch in IPv4.</font></p>
+	<p><font size="4"><b>Identification :</b></font></p>
+	<p><font size="4">This field is an identification field and is primarily used for uniquely 
+	  identifying fragments of an original IP datagram. Some experimental work has suggested using the 
+	  ID field for other purposes, such as for adding packet-tracing information to datagrams in order 
+	  to help trace back datagrams with spoofed source addresses.</font></p>
+	<p><font size="4"><b>Flags :</b></font></p>
+	<p><font size="4">A three-bit field follows and is used to control or identify fragments. They are 
+	  (in order, from high order to low order):<br>
+	  <b>bit 0:</b> Reserved; must be zero.<br>
+	  <b>bit 1:</b> Don't Fragment (DF)<br>
+	  <b>bit 2:</b> More Fragments (MF)<br>
+	  If the DF flag is set and fragmentation is required to route the packet then the packet is dropped. 
+	  This can be used when sending packets to a host that does not have sufficient resources to handle 
+	  fragmentation. It can also be used for Path MTU Discovery, either automatically by the host IP 
+	  software, or manually using diagnostic tools such as ping or traceroute.<br>
+	  For unfragmented packets, the MF flag is cleared. For fragmented packets, all fragments except the 
+	  last have the MF flag set. The last fragment has a non-zero Fragment Offset field, differentiating 
+	  it from an unfragmented packet.</font></p>
+	<p><font size="4"><b>Fragment Offset :</b></font></p>
+	<p><font size="4">The fragment offset field, measured in units of eight-byte blocks, is 13 bits long 
+	  and specifies the offset of a particular fragment relative to the beginning of the original 
+	  unfragmented IP datagram. The first fragment has an offset of zero. This allows a maximum offset of 
+	  (213 - 1) × 8 = 65,528 bytes which would exceed the maximum IP packet length of 65,535 bytes with 
+	  the header length included (65,528 + 20 = 65,548 bytes).</font></p>
+	<p><font size="4"><b>Time To Live (TTL) :</b></font></p>
+	<p><font size="4">An eight-bit time to live field helps prevent datagrams from persisting (e.g. going 
+	  in circles) on an internet. This field limits a datagram's lifetime. It is specified in seconds, 
+	  but time intervals less than 1 second are rounded up to 1. In latencies typical in practice, it has 
+	  come to be a hop count field. Each router that a datagram crosses decrements the TTL field by one. 
+	  When the TTL field hits zero, the packet is no longer forwarded by a packet switch and is discarded.
+	  Typically, an ICMP Time Exceeded message is sent back to the sender to inform it that the packet has 
+	  been discarded. The reception of these ICMP messages is at the heart of how traceroute works.</font></p>
+	<p><font size="4"><b>Protocol :</b></font></p>
+	<p><font size="4">This field defines the protocol used in the data portion of the IP datagram. The 
+	  Internet Assigned Numbers Authority maintains a list of IP protocol numbers which was originally 
+	  defined in RFC 790.</font></p>
+	<p><font size="4"><b>Header Checksum :</b></font></p>
+	<p><font size="4">The 16-bit checksum field is used for error-checking of the header. At each hop, 
+	  the checksum of the header must be compared to the value of this field. If a header checksum is 
+	  found to be mismatched, then the packet is discarded. Errors in the data field must be handled by 
+	  the encapsulated protocol and both UDP and TCP have checksum fields. As the TTL field is 
+	  decremented on each hop, a new checksum must be computed each time. <br><br>
+	  <i>The method used to compute the checksum is defined by RFC 1071:</i><br><br>
+	  The checksum field is the 16-bit one's complement of the one's complement sum of all 16-bit words 
+	  in the header. For purposes of computing the checksum, the value of the checksum field is zero.<br>
+      For example, use Hex 4500003044224000800600008c7c19acae241e2b (20 bytes IP header):<br>
+      4500 + 0030 + 4422 + 4000 + 8006 + 0000 + 8c7c + 19ac + ae24 + 1e2b = 2BBCF<br>
+      2 + BBCF = BBD1 = 1011101111010001, the 1'S of sum = 0100010000101110 = 442E<br><br>
+      To validate a header's checksum the same algorithm may be used - the checksum of a header which 
+	  contains a correct checksum field is a word containing all zeros (value 0):<br>
+      2BBCF + 442E = 2FFFD. 2 + FFFD = FFFF. the 1'S of FFFF = 0.</font></p>
+    <p><font size="4"><b>Source address :</b></font></p>
+	<p><font size="4">An IPv4 address indicating the sender of the packet. Note that this address may be 
+	  changed in transit by a network address translation device.</font></p>
+	<p><font size="4"><b>Destination address :</b></font></p>
+	<p><font size="4">An IPv4 address indicating the receiver of the packet. As with the Source address, 
+	  this may be changed in transit by a network address translation device.</font></p>
+	<p><font size="4"><b>Options :</b></font></p>
+	<p><font size="4">Additional header fields may follow the destination address field, but these are 
+	  not often used. Note that the value in the IHL field must include enough extra 32-bit words to hold 
+	  all the options (plus any padding needed to ensure that the header contains an integral number of 
+	  32-bit words). The list of options may be terminated with an EOL (End of Options List, 0x00) option; 
+	  this is only necessary if the end of the options would not otherwise coincide with the end of the 
+	  header. </font></p>
+	<p><font size="4"><b>Data :</b></font></p>
+	<p><font size="4">The data portion of the packet is not included in the packet checksum. Its contents 
+	  are interpreted based on the value of the Protocol header field.<br>
+	  In a typical IP implementation, standard protocols such as TCP and UDP are implemented in the OS 
+          kernel for performance reasons. Other protocols such as ICMP may be partially implemented by the 
+          kernel, or implemented purely in user software. Protocols not implemented in-kernel, and not exposed 
+          by standard APIs such as BSD sockets, are typically implemented using a 'raw socket' API.<br><br>
+ 	  Some of the common protocols for the data portion are listed below:</font></p><br>
+          <table>
+		<tr>
+ 		  <td>1</td>
+                  <td>Internet Control Message Protocol</td>
+                  <td>ICMP</td></tr>
+		<tr>
+ 		  <td>2</td>
+                  <td>Internet Group Management Protocol</td>
+                  <td>IGMP</td></tr>
+		<tr>
+ 		  <td>6</td>
+                  <td>Transmission Control Protocol</td>
+                  <td>TCP</td></tr>
+		<tr>
+ 		  <td>17</td>
+                  <td>User Datagram Protocol</td>
+                  <td>UDP</td></tr>
+		<tr>
+ 		  <td>41</td>
+                  <td>IPv6 encapsulation</td>
+                  <td>ENCAP</td></tr>
+		<tr>
+ 		  <td>89</td>	
+                  <td>Open Shortest Path First</td>
+                  <td>OSPF</td></tr>
+		<tr>
+ 		  <td>132</td>	
+                  <td>Stream Control Transmission Protocol</td>
+                  <td>SCTP</td></tr>
+ </table>
+    </blockquote>
+  <p>&nbsp;</p>
+    <p>
+	<table width="100%">
+	  <tr>
+	    <td align="right"><a href="Ethernet_Header.html"><img src="backward.png" width="128" height="128" border="0"></a></td>
+	    <td align="left"><a href="TCP_Header.html"><img src="forward.png" width="128" height="128" border="0"></a></td>
+	  </tr>
+	</table>
+    </p>
+</blockquote>
+</body>
+</html>

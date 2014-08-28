@@ -1,0 +1,11 @@
+#!/bin/sh
+#
+# $Id: jpcap,v 1.11 2001/07/02 00:21:55 pcharles Exp $
+#
+# jpcap console test tool startup script
+#
+
+cd "NetView+"
+classfile="NetView"
+java $classfile
+cd ..

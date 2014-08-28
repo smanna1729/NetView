@@ -1,0 +1,47 @@
+<html>
+<head>
+<title>Ethernet Header Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+<h1 align="center"><br>
+  Ethernet Header Format<br>
+</h1>
+<p align="center"><img src="EthernetHeaderStructure.png" width="412" height="76"></p>
+<p align="center">&nbsp;</p>
+<blockquote> 
+  <blockquote>
+   <p><font size="4">A data packet on an Ethernet link is called an Ethernet frame. 
+   A frame begins with Preamble and Start Frame Delimiter. Following which, each 
+   Ethernet frame continues with an Ethernet header featuring destination and source 
+   MAC addresses. The middle section of the frame is payload data including any 
+   headers for other protocols (e.g. Internet Protocol) carried in the frame. The 
+   frame ends with a 32-bit cyclic redundancy check which is used to detect any 
+   corruption of data in transit. </font></p>
+   <p><font size="4">A Media Access Control address (MAC address) is a unique 
+   identifier assigned to network interfaces for communications on the physical 
+   network segment. MAC addresses are used for numerous network technologies and 
+   most IEEE 802 network technologies, including Ethernet. Logically, MAC addresses 
+   are used in the Media Access Control protocol sub-layer of the OSI reference model.
+   </font></p>
+   <p><font size="4">MAC addresses are most often assigned by the manufacturer of a 
+   network interface card (NIC) and are stored in its hardware, the card's read-only 
+   memory, or some other firmware mechanism. If assigned by the manufacturer, a MAC 
+   address usually encodes the manufacturer's registered identification number and may 
+   be referred to as the burned-in address. It may also be known as an Ethernet hardware 
+   address (EHA), hardware address or physical address. A network node may have multiple 
+   NICs and will then have one unique MAC address per NIC.</font></p>
+  </blockquote>
+  <p>&nbsp;</p>
+    <p>
+	<table width="100%">
+	  <tr>
+	    <td align="right"><a href="packet_format.html"><img src="backward.png" width="128" height="128" border="0"></a></td>
+	    <td align="left"><a href="IP_Header.html"><img src="forward.png" width="128" height="128" border="0"></a></td>
+	  </tr>
+	</table>
+    </p>
+</blockquote>
+</body>
+</html>

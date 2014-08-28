@@ -1,0 +1,109 @@
+<html>
+<head>
+<title>TCP Header Content</title>
+<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+</head>
+
+<body bgcolor="#FFFFFF">
+<h1 align="center"><br>
+  TCP Header Format<br>
+</h1>
+<p align="center">&nbsp;</p>
+<p align="center"><font size="5"><img src="TCP-Header.png" width="750" height="550"> 
+  </font></p>
+<p align="center">&nbsp;</p>
+<blockquote> <font size="4">The Transmission Control Protocol (TCP) is one of the 
+    core protocols of the Internet Protocol Suite. TCP is one of the two original 
+    components of the suite, complementing the Internet Protocol (IP), and therefore 
+    the entire suite is commonly referred to as TCP/IP. TCP provides reliable, ordered 
+    delivery of a stream of bytes from a program on one computer to another program 
+    on another computer. TCP is the protocol that major Internet applications such 
+    as the World Wide Web, email, remote administration and file transfer rely on.</font>
+<p>&nbsp;</p>
+<p><font size="4"><b>Source port (16 bits)</b> : identifies the sending port.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Destination port (16 bits)</b> : identifies the receiving port.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Sequence number (32 bits)</b> : has a dual role.</font></p>
+<p><font size="4">If the SYN flag is set (1), then this is the initial sequence number. 
+    The sequence number of the actual first data byte and the acknowledged number in 
+    the corresponding ACK are then this sequence number plus 1.<br><br>
+    If the SYN flag is clear (0), then this is the accumulated sequence number of the 
+    first data byte of this packet for the current session.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Acknowledgment number (32 bits) :</b> if the ACK flag is set then the 
+    value of this field is the next sequence number that the receiver is expecting. 
+    This acknowledges receipt of all prior bytes (if any). The first ACK sent by each 
+    end acknowledges the other end's initial sequence number itself, but no data.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Data offset (4 bits) :</b> specifies the size of the TCP header in 32-bit 
+    words. The minimum size header is 5 words and the maximum is 15 words thus giving the 
+    minimum size of 20 bytes and maximum of 60 bytes, allowing for up to 40 bytes of options 
+    in the header. This field gets its name from the fact that it is also the offset from the 
+    start of the TCP segment to the actual data.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Reserved (3 bits) :</b> for future use and should be set to zero.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Flags (9 bits) (aka Control bits) :</b> contains 9 1-bit flags.<br>
+    <br><b>NS (1 bit) :</b> ECN-nonce concealment protection (added to header by RFC 3540).
+    <br><b>CWR (1 bit) :</b> Congestion Window Reduced (CWR) flag is set by the sending host to 
+    indicate that it received a TCP segment with the ECE flag set and had responded in 
+    congestion control mechanism (added to header by RFC 3168).
+    <br><b>ECE (1 bit) :</b> ECN-Echo indicates.
+    <br>If the SYN flag is set (1), that the TCP peer is ECN capable. If the SYN flag is 
+        clear (0), that a packet with Congestion Experienced flag in IP header set is 
+        received during normal transmission (added to header by RFC 3168).
+    <br><b>URG (1 bit) :</b> indicates that the Urgent pointer field is significant.
+    <br><b>ACK (1 bit) :</b> indicates that the Acknowledgment field is significant. All packets 
+    after the initial SYN packet sent by the client should have this flag set.
+    <br><b>PSH (1 bit) :</b> Push function. Asks to push the buffered data to the receiving application.
+    <br><b>RST (1 bit) :</b> Reset the connection
+    <br><b>SYN (1 bit) :</b> Synchronize sequence numbers. Only the first packet sent from each end 
+    should have this flag set. Some other flags change meaning based on this flag, and some 
+    are only valid for when it is set, and others when it is clear.
+    <br><b>FIN (1 bit) :</b> No more data from sender</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Window size (16 bits) :</b> the size of the receive window, which 
+    specifies the number of bytes (beyond the sequence number in the acknowledgment field) 
+    that the receiver is currently willing to receive (see Flow control and Window Scaling).</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Checksum (16 bits) :</b> The 16-bit checksum field is used for 
+    error-checking of the header and data.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Urgent pointer (16 bits) :</b> if the URG flag is set, then this 16-bit 
+    field is an offset from the sequence number indicating the last urgent data byte.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Options (Variable 0-320 bits, divisible by 32) :</b> The length of 
+    this field is determined by the data offset field. Options have up to three fields: 
+    Option-Kind (1 byte), Option-Length (1 byte), Option-Data (variable). The Option-Kind 
+    field indicates the type of option, and is the only field that is not optional. 
+    Depending on what kind of option we are dealing with, the next two fields may be set: 
+    the Option-Length field indicates the total length of the option, and the Option-Data 
+    field contains the value of the option, if applicable. For example, an Option-Kind 
+    byte of 0x01 indicates that this is a No-Op option used only for padding, and does 
+    not have an Option-Length or Option-Data byte following it. An Option-Kind byte of 0 
+    is the End Of Options option, and is also only one byte. An Option-Kind byte of 0x02 
+    indicates that this is the Maximum Segment Size option, and will be followed by a byte 
+    specifying the length of the MSS field (should be 0x04). Note that this length is 
+    the total length of the given options field, including Option-Kind and Option-Length 
+    bytes. So while the MSS value is typically expressed in two bytes, the length of the 
+    field will be 4 bytes (+2 bytes of kind and length). In short, an MSS option field 
+    with a value of 0x05B4 will show up as (0x02 0x04 0x05B4) in the TCP options section.</font></p>
+<p>&nbsp;</p>
+<p><font size="4"><b>Padding :</b> The TCP header padding is used to ensure that the TCP 
+    header ends and data begins on a 32 bit boundary. The padding is composed of zeros.</font></p>
+  <blockquote>
+  </blockquote>
+    <p><font size="4">Information is taken from : http://en.wikipedia.org/wiki/User_Datagram_Protocol</font></p>
+    <p>&nbsp;</p>
+    <p>
+	<table width="100%">
+	  <tr>
+	    <td align="right"><a href="IP_Header.html"><img src="backward.png" width="128" height="128" border="0"></a></td>
+	    <td align="left"><a href="UDP_Header.html"><img src="forward.png" width="128" height="128" border="0"></a></td>
+	  </tr>
+	</table>
+    </p>
+</blockquote>
+</body>
+</html>
